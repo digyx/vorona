@@ -20,6 +20,7 @@ func service() http.Handler {
 
 	// Server Routes
 	r.Get("/", index)
+	r.Get("/about", about)
 
 	return r
 }
@@ -47,7 +48,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(html)
 
 	// Load the CSS
 	style, err := ioutil.ReadFile("templates/index.style.html")
@@ -61,6 +61,35 @@ func index(w http.ResponseWriter, r *http.Request) {
 	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
 		"title":   "Vorona",
 		"content": html,
+		"style":   string(style),
+	})
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Write([]byte(res))
+}
+
+func about(w http.ResponseWriter, r *http.Request) {
+	content, err := ioutil.ReadFile("templates/about.html")
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	style, err := ioutil.ReadFile("templates/about.style.html")
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
+		"title":   "About Devon - Vorona",
+		"content": string(content),
 		"style":   string(style),
 	})
 	if err != nil {

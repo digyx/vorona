@@ -1,0 +1,19 @@
+<div id="body">
+    {{#books}}
+    <div class="book">
+        <img
+            src="https://cdn.vorona.gg/books/{{ book.id }}.png"
+            alt="Well shit, that didn't work..."
+            {% if is_released %}
+            style="cursor: pointer;"
+            onclick="goto('/books/{{ book.id }}')"
+            {% endif %}
+        />
+        <h3>{{ book.title }}</h3>
+        {{^book.is_released}}
+        <i>Releases {{ book.release_date }}</i>
+        {{/book.is_released}}
+    </div>
+    {{/books}}
+</div>
+

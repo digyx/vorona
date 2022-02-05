@@ -1,20 +1,58 @@
 package books
 
-import "time"
+import (
+	"database/sql"
+	"fmt"
+	"time"
+)
 
 type Book struct {
-	ID          string
+	ID          int
+	Slug        string
 	Title       string
 	ReleaseTime int64
 }
 
-func (book *Book) ToMap() map[string]interface{} {
+func (book *Book) ToMustache() map[string]interface{} {
 	release_date := time.Unix(book.ReleaseTime, 0).UTC()
 	is_released := time.Now().After(release_date)
 	return map[string]interface{}{
-		"book.id":           book.ID,
-		"book.title":        book.Title,
-		"book.release_date": release_date.Format("January 02 2006"),
-		"book.is_released":  is_released,
+		"slug":         book.Slug,
+		"title":        book.Title,
+		"release_date": release_date.Format("January 02 2006"),
+		"is_released":  is_released,
 	}
+}
+
+func GetAllBooks(db *sql.DB) ([]Book, error) {
+	rows, err := db.Query("SELECT slug, title, release_time FROM books")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	books := []Book{}
+	for rows.Next() {
+		var book Book
+		err := rows.Scan(&book.Slug, &book.Title, &book.ReleaseTime)
+		if err != nil {
+			return nil, err
+		}
+
+		books = append(books, book)
+	}
+
+	return books, nil
+}
+
+func GetBook(db *sql.DB, id string) (Book, error) {
+	res := db.QueryRow("SELECT slug, title, release_time FROM books WHERE slug=$1", id)
+	if res == nil {
+		return Book{}, fmt.Errorf("error: could not find book id=%s", id)
+	}
+
+	var book Book
+	res.Scan(&book.Slug, &book.Title, &book.ReleaseTime)
+
+	return book, nil
 }

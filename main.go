@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,12 +10,19 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 )
 
+var db *sql.DB
+
 func main() {
+	var err error
+	db, err = connectToDatabase()
+	if err != nil {
+		fmt.Println("error: could not connect to database")
+		fmt.Println(err)
+		return
+	}
+
 	// The HTTP Server
 	server := &http.Server{Addr: "0.0.0.0:8080", Handler: service()}
 
@@ -46,37 +54,11 @@ func main() {
 	}()
 
 	// Run the server
-	err := server.ListenAndServe()
+	err = server.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 
 	// Wait for server context to be stopped
 	<-serverCtx.Done()
-}
-
-func service() http.Handler {
-	r := chi.NewRouter()
-
-	r.Use(middleware.RequestID)
-	r.Use(middleware.Logger)
-
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("sup"))
-	})
-
-	r.Get("/slow", func(w http.ResponseWriter, r *http.Request) {
-		// Simulates some hard work.
-		//
-		// We want this handler to complete successfully during a shutdown signal,
-		// so consider the work here as some background routine to fetch a long running
-		// search query to find as many results as possible, but, instead we cut it short
-		// and respond with what we have so far. How a shutdown is handled is entirely
-		// up to the developer, as some code blocks are preemptable, and others are not.
-		time.Sleep(5 * time.Second)
-
-		w.Write([]byte(fmt.Sprintf("all done.\n")))
-	})
-
-	return r
 }

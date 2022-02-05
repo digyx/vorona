@@ -5,9 +5,9 @@ import (
 	"testing"
 )
 
-func TestBook_ToMap(t *testing.T) {
+func TestBook_ToMustache(t *testing.T) {
 	type fields struct {
-		ID          string
+		Slug        string
 		Title       string
 		ReleaseTime int64
 	}
@@ -19,15 +19,15 @@ func TestBook_ToMap(t *testing.T) {
 		{
 			name: "basic",
 			fields: fields{
-				ID:          "AzureWitch",
+				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
 				ReleaseTime: 1646006400,
 			},
 			want: map[string]interface{}{
-				"book.id":           "AzureWitch",
-				"book.title":        "Death of the Azure Witch",
-				"book.is_released":  false,
-				"book.release_date": "February 28 2022",
+				"slug":         "AzureWitch",
+				"title":        "Death of the Azure Witch",
+				"is_released":  false,
+				"release_date": "February 28 2022",
 			},
 		},
 	}
@@ -35,12 +35,12 @@ func TestBook_ToMap(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			book := &Book{
-				ID:          tt.fields.ID,
+				Slug:        tt.fields.Slug,
 				Title:       tt.fields.Title,
 				ReleaseTime: tt.fields.ReleaseTime,
 			}
-			if got := book.ToMap(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Book.ToMap() = %v, want %v", got, tt.want)
+			if got := book.ToMustache(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Book.ToMustache() = %v, want %v", got, tt.want)
 			}
 		})
 	}

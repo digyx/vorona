@@ -2,17 +2,17 @@
     {{#books}}
     <div class="book">
         <img
-            src="https://cdn.vorona.gg/books/{{ book.id }}.png"
+            src="https://cdn.vorona.gg/books/{{slug}}.png"
             alt="Well shit, that didn't work..."
-            {% if is_released %}
+            {{#is_released}}
             style="cursor: pointer;"
-            onclick="goto('/books/{{ book.id }}')"
-            {% endif %}
+            onclick="goto('/books/{{slug}}')"
+            {{/is_released}}
         />
-        <h3>{{ book.title }}</h3>
-        {{^book.is_released}}
-        <i>Releases {{ book.release_date }}</i>
-        {{/book.is_released}}
+        <h3>{{ title }}</h3>
+        {{^is_released}}
+        <i>Releases {{release_date}}</i>
+        {{/is_released}}
     </div>
     {{/books}}
 </div>

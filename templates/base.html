@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="https://cdn.vorona.gg/favicon.ico">
+        <title>{{title}}</title>
+    </head>
+    <body>
+        <div id="header">
+            <img id="menu-line" onclick="openNav()" src="https://cdn.vorona.gg/icons/core/menu-line.svg"/>
+        </div>
+
+        <div id="nav-pane">
+            <img id="times-line" onclick="closeNav()" src="https://cdn.vorona.gg/icons/core/times-line.svg"/>
+            <h1 class="link" onclick="goto('/')">Home</h1>
+            <h1 class="link" onclick="goto('/about')">About</h1>
+            <h1 class="link" onclick="goto('https://blog.vorona.gg/')">Blog</h1>
+
+            <div id="social-icons">
+                <img
+                    class="social-icon"
+                    src="https://cdn.vorona.gg/icons/third-party/patreon-logo.png"
+                    onclick="goto('https://patreon.com/devontingley')"
+                />
+                <img
+                    class="social-icon"
+                    src="https://cdn.vorona.gg/icons/third-party/twitter-logo.svg"
+                    onclick="goto('https://twitter.com/godmaire_')"
+                />
+                <img
+                    class="social-icon"
+                    src="https://cdn.vorona.gg/icons/third-party/youtube-logo.png"
+                    onclick="goto('https://youtube.com/channel/UCMvbgYd15cr6osFvKtbDgRQ')"
+                />
+            </div>
+        </div>
+        {{{content}}}
+    </body>
+</html>
+
+<style>
+    html, body {
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    #header {
+        width: 100%;
+        height: 80px;
+
+        box-shadow: 0 0 10px #000;
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        display: flex;
+        background: #fff;
+    }
+
+    #menu-line, #times-line {
+        width: 50px;
+        height: 50px;
+
+        margin: 15px;
+        cursor: pointer;
+    }
+
+    #nav-pane {
+        width: 70%;
+        max-width: 600px;
+        height: 100%;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        display: none;
+        flex-direction: column;
+
+        background: #fff;
+        box-shadow: 0 0 50px black;
+    }
+
+    .link {
+        margin: 1em;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    #social-icons {
+        width: 70vw;
+        max-width: 600px;
+
+        position: fixed;
+        left: 0;
+        bottom: 30px;
+
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .social-icon {
+        width: 40px;
+        cursor: pointer;
+    }
+</style>
+
+{{{style}}}
+
+<script>
+    function goto(url) {
+        window.location = url;
+    }
+
+    function openNav() {
+        document.getElementById("nav-pane").style.display = "flex";
+    }
+
+    function closeNav() {
+        document.getElementById("nav-pane").style.display = "none";
+    }
+</script>

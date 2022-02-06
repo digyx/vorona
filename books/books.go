@@ -10,6 +10,7 @@ type Book struct {
 	ID          int
 	Slug        string
 	Title       string
+	Description string
 	ReleaseTime int64
 }
 
@@ -19,13 +20,15 @@ func (book *Book) ToMustache() map[string]interface{} {
 	return map[string]interface{}{
 		"slug":         book.Slug,
 		"title":        book.Title,
+		"description":  book.Description,
 		"release_date": release_date.Format("January 02 2006"),
 		"is_released":  is_released,
 	}
 }
 
+// Database
 func GetAllBooks(db *sql.DB) ([]Book, error) {
-	rows, err := db.Query("SELECT slug, title, release_time FROM books")
+	rows, err := db.Query("SELECT slug, title, description, release_time FROM books")
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +37,7 @@ func GetAllBooks(db *sql.DB) ([]Book, error) {
 	books := []Book{}
 	for rows.Next() {
 		var book Book
-		err := rows.Scan(&book.Slug, &book.Title, &book.ReleaseTime)
+		err := rows.Scan(&book.Slug, &book.Title, &book.Description, &book.ReleaseTime)
 		if err != nil {
 			return nil, err
 		}
@@ -46,13 +49,13 @@ func GetAllBooks(db *sql.DB) ([]Book, error) {
 }
 
 func GetBook(db *sql.DB, id string) (Book, error) {
-	res := db.QueryRow("SELECT slug, title, release_time FROM books WHERE slug=$1", id)
+	res := db.QueryRow("SELECT slug, title, description, release_time FROM books WHERE slug=$1", id)
 	if res == nil {
 		return Book{}, fmt.Errorf("error: could not find book id=%s", id)
 	}
 
 	var book Book
-	res.Scan(&book.Slug, &book.Title, &book.ReleaseTime)
+	res.Scan(&book.Slug, &book.Title, &book.Description, &book.ReleaseTime)
 
 	return book, nil
 }

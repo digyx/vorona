@@ -9,6 +9,7 @@ func TestBook_ToMustache(t *testing.T) {
 	type fields struct {
 		Slug        string
 		Title       string
+		Description string
 		ReleaseTime int64
 	}
 	tests := []struct {
@@ -21,11 +22,13 @@ func TestBook_ToMustache(t *testing.T) {
 			fields: fields{
 				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
+				Description: "This is a real book.",
 				ReleaseTime: 1646006400,
 			},
 			want: map[string]interface{}{
 				"slug":         "AzureWitch",
 				"title":        "Death of the Azure Witch",
+				"description":  "This is a real book.",
 				"is_released":  false,
 				"release_date": "February 28 2022",
 			},

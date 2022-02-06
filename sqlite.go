@@ -20,6 +20,7 @@ func connectToDatabase() (*sql.DB, error) {
 	CREATE TABLE IF NOT EXISTS books (
 		slug         TEXT    NOT NULL UNIQUE,
 		title        TEXT    NOT NULL,
+		description  TEXT    NOT NULL,
 		release_time INTEGER NOT NULL
 	)
 	`

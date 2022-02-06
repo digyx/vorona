@@ -1,0 +1,30 @@
+<div id="body">
+    <img
+        src="https://cdn.vorona.gg/books/{{slug}}.png"
+        alt="Well shit, this should be cover art..."
+    />
+
+    <h1>{{title}}</h1>
+    <i id="release-date">
+        {{#is_released}}Released{{/is_released}}
+        {{^is_released}}Releases on{{/is_released}}
+        {{release_date}}
+    </i>
+
+    {{#is_released}}
+    <div id="download" >
+        <button>
+            <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
+            PDF
+        </button>
+
+        <button>
+            <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
+            ePub
+        </button>
+    </div>
+    {{/is_released}}
+    <div id="description">
+        {{description}}
+    </div>
+</div>

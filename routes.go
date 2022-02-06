@@ -21,6 +21,7 @@ func service() http.Handler {
 	// Server Routes
 	r.Get("/", index)
 	r.Get("/about", about)
+	r.Get("/book/{slug:[a-z]+}", book)
 
 	return r
 }
@@ -39,30 +40,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 		mustacheBooks = append(mustacheBooks, elem.ToMustache())
 	}
 
-	// Render the HTML Template
-	html, err := mustache.RenderFile("templates/index.html", map[string]interface{}{
-		"books": mustacheBooks,
-	})
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	// Render the HTML Page
+	res, err := renderTemplate(
+		"index",
+		"Vorona",
+		map[string]interface{}{
+			"books": mustacheBooks,
+		},
+	)
 
-	// Load the CSS
-	style, err := ioutil.ReadFile("templates/index.style.html")
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	// Combine with base
-	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
-		"title":   "Vorona",
-		"content": html,
-		"style":   string(style),
-	})
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -73,25 +59,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
-	content, err := ioutil.ReadFile("templates/about.html")
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	res, err := renderTemplate(
+		"about",
+		"About Devon - Vorona",
+		make(map[string]interface{}),
+	)
 
-	style, err := ioutil.ReadFile("templates/about.style.html")
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
-		"title":   "About Devon - Vorona",
-		"content": string(content),
-		"style":   string(style),
-	})
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -99,4 +72,56 @@ func about(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte(res))
+}
+
+func book(w http.ResponseWriter, r *http.Request) {
+	bookSlug := chi.URLParam(r, "slug")
+
+	book, err := books.GetBook(db, bookSlug)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Render the HTML Page
+	res, err := renderTemplate(
+		"book",
+		book.Title,
+		book.ToMustache(),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Write([]byte(res))
+}
+
+func renderTemplate(pageName string, title string, context interface{}) (string, error) {
+	html_filename := fmt.Sprintf("templates/%s.html", pageName)
+	style_filename := fmt.Sprintf("templates/%s.style.html", pageName)
+
+	content, err := mustache.RenderFile(html_filename, context)
+	if err != nil {
+		return "", err
+	}
+
+	style, err := ioutil.ReadFile(style_filename)
+	if err != nil {
+		return "", err
+	}
+
+	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
+		"title":   title,
+		"content": content,
+		"style":   string(style),
+	})
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
 }

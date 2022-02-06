@@ -19,6 +19,10 @@ func service() http.Handler {
 	r.Use(middleware.Logger)
 
 	// Server Routes
+	r.Get("/healthcheck", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Ok"))
+	})
+
 	r.Get("/", index)
 	r.Get("/about", about)
 	r.Get("/book/{slug:[a-z]+}", book)

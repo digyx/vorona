@@ -25,7 +25,7 @@ func service() http.Handler {
 
 	r.Get("/", index)
 	r.Get("/about", about)
-	r.Get("/book/{slug:[a-z]+}", book)
+	r.Get("/book/{slug:[A-Za-z]+}", book)
 
 	return r
 }

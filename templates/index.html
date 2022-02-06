@@ -4,10 +4,8 @@
         <img
             src="https://cdn.vorona.gg/books/{{slug}}.png"
             alt="Well shit, that didn't work..."
-            {{#is_released}}
             style="cursor: pointer;"
             onclick="goto('/book/{{slug}}')"
-            {{/is_released}}
         />
         <h3>{{ title }}</h3>
         {{^is_released}}

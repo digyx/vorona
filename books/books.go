@@ -28,9 +28,9 @@ func (book *Book) ToMustache() map[string]interface{} {
 // Database
 func GetAllBooks(db *sql.DB) ([]Book, error) {
 	rows, err := db.Query(`
-        SELECT slug, title, description, release_time
-        FROM books
-        ORDER BY release_time DESC`)
+		SELECT slug, title, description, release_time
+		FROM books
+		ORDER BY release_time DESC`)
 
 	if err != nil {
 		return nil, err
@@ -53,9 +53,9 @@ func GetAllBooks(db *sql.DB) ([]Book, error) {
 
 func GetBook(db *sql.DB, id string) (Book, error) {
 	res := db.QueryRow(`
-        SELECT slug, title, description, release_time
-        FROM books
-        WHERE slug=$1`, id)
+		SELECT slug, title, description, release_time
+		FROM books
+		WHERE slug=$1`, id)
 
 	if res == nil {
 		return Book{}, fmt.Errorf("error: could not find book id=%s", id)

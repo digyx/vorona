@@ -28,8 +28,13 @@ func service() http.Handler {
 	r.Get("/about", about)
 	r.Get("/book/{slug:[A-Za-z]+}", book)
 
-	r.Get("/api/book", apiBooks)
-	r.Get("/api/book/{slug:[A-Za-z]+}", apiBook)
+	// API Routes
+	r.Route("/api", func(r chi.Router) {
+		r.Use(middleware.SetHeader("content-type", "application/json"))
+
+		r.Get("/book", apiBooks)
+		r.Get("/book/{slug:[A-Za-z]+}", apiBook)
+	})
 
 	return r
 }

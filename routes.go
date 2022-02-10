@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -26,6 +27,9 @@ func service() http.Handler {
 	r.Get("/", index)
 	r.Get("/about", about)
 	r.Get("/book/{slug:[A-Za-z]+}", book)
+
+	r.Get("/api/book", apiBooks)
+	r.Get("/api/book/{slug:[A-Za-z]+}", apiBook)
 
 	return r
 }
@@ -104,6 +108,31 @@ func book(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(res))
 }
 
+// API Handlers
+func apiBook(w http.ResponseWriter, r *http.Request) {
+	bookSlug := chi.URLParam(r, "slug")
+	book, err := books.GetBook(db, bookSlug)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(book)
+}
+
+func apiBooks(w http.ResponseWriter, r *http.Request) {
+	books, err := books.GetAllBooks(db)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(books)
+}
+
+//  Helper Functions
 func renderTemplate(pageName string, title string, context interface{}) (string, error) {
 	html_filename := fmt.Sprintf("templates/%s.html", pageName)
 	style_filename := fmt.Sprintf("templates/%s.style.html", pageName)

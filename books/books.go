@@ -7,11 +7,10 @@ import (
 )
 
 type Book struct {
-	ID          int
-	Slug        string
-	Title       string
-	Description string
-	ReleaseTime int64
+	Slug        string `json:"slug"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	ReleaseTime int64  `json:"release_time"`
 }
 
 func (book *Book) ToMustache() map[string]interface{} {

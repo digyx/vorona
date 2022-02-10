@@ -18,19 +18,51 @@ func TestBook_ToMustache(t *testing.T) {
 		want   map[string]interface{}
 	}{
 		{
-			name: "basic",
+			name: "12:00:00AM UTC",
 			fields: fields{
 				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
 				Description: "This is a real book.",
-				ReleaseTime: 1646006400,
+				ReleaseTime: 10413792000,
 			},
 			want: map[string]interface{}{
 				"slug":         "AzureWitch",
 				"title":        "Death of the Azure Witch",
 				"description":  "This is a real book.",
 				"is_released":  false,
-				"release_date": "February 28 2022",
+				"release_date": "January 01 2300",
+			},
+		},
+		{
+			name: "11:59:59PM UTC",
+			fields: fields{
+				Slug:        "AzureWitch",
+				Title:       "Death of the Azure Witch",
+				Description: "This is a real book.",
+				ReleaseTime: 10413791999,
+			},
+			want: map[string]interface{}{
+				"slug":         "AzureWitch",
+				"title":        "Death of the Azure Witch",
+				"description":  "This is a real book.",
+				"is_released":  false,
+				"release_date": "December 31 2299",
+			},
+		},
+		{
+			name: "Released",
+			fields: fields{
+				Slug:        "AzureWitch",
+				Title:       "Death of the Azure Witch",
+				Description: "This is a real book.",
+				ReleaseTime: 0,
+			},
+			want: map[string]interface{}{
+				"slug":         "AzureWitch",
+				"title":        "Death of the Azure Witch",
+				"description":  "This is a real book.",
+				"is_released":  true,
+				"release_date": "January 01 1970",
 			},
 		},
 	}
@@ -40,6 +72,7 @@ func TestBook_ToMustache(t *testing.T) {
 			book := &Book{
 				Slug:        tt.fields.Slug,
 				Title:       tt.fields.Title,
+				Description: tt.fields.Description,
 				ReleaseTime: tt.fields.ReleaseTime,
 			}
 			if got := book.ToMustache(); !reflect.DeepEqual(got, tt.want) {

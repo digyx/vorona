@@ -11,33 +11,45 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
     </head>
-    <body>
+    <body id="root">
         <div id="header">
-            <p id="author-name" onclick="goto('/')">Devon Tingley</p>
+            <a href="/">
+                <p id="author-name">Devon Tingley</p>
+            </a>
             <img id="menu-line" onclick="openNav()" src="https://cdn.vorona.gg/icons/core/menu-line.svg"/>
 
             <div id="navigation">
                 <img id="times-line" onclick="closeNav()" src="https://cdn.vorona.gg/icons/core/times-line.svg"/>
-                <p class="link" onclick="goto('/')">Home</p>
-                <p class="link" onclick="goto('/about')">About</p>
-                <p class="link" onclick="goto('https://blog.vorona.gg/')">Blog</p>
+                <a class="link" href="/">Home</a>
+                <a class="link" href="/about">About</a>
+                <a class="link" href="/license">License</a>
 
                 <div id="social-icons">
                     <img
+                        id="dark-mode-off"
                         class="social-icon"
-                        src="https://cdn.vorona.gg/icons/third-party/patreon-logo.png"
-                        onclick="goto('https://patreon.com/devontingley')"
+                        onclick="darkModeOn()"
+                        src="https://cdn.vorona.gg/icons/essential/sun-line.svg"
                     />
                     <img
+                        id="dark-mode-on"
                         class="social-icon"
-                        src="https://cdn.vorona.gg/icons/third-party/twitter-logo.svg"
-                        onclick="goto('https://twitter.com/godmaire_')"
+                        onclick="darkModeOff()"
+                        src="https://cdn.vorona.gg/icons/essential/moon-line.svg"
                     />
-                    <img
-                        class="social-icon"
-                        src="https://cdn.vorona.gg/icons/third-party/youtube-logo.png"
-                        onclick="goto('https://youtube.com/channel/UCMvbgYd15cr6osFvKtbDgRQ')"
-                    />
+
+                    <a href="https://patreon.com/devontingley">
+                        <img
+                            class="social-icon"
+                            src="https://cdn.vorona.gg/icons/third-party/patreon-logo.png"
+                        />
+                    </a>
+                    <a href="https://twitter.com/godmaire_">
+                        <img
+                            class="social-icon"
+                            src="https://cdn.vorona.gg/icons/third-party/twitter-logo.svg"
+                        />
+                    </a>
                 </div>
             </div>
         </div>
@@ -48,14 +60,30 @@
 </html>
 
 <style>
-    html, body {
+    :root {
+        --background-color: #fff;
+        --text-color: #000;
+        --svg-filter: 0%;
+    }
+
+    body {
         width: 100%;
+        min-height: 100vh;
+        height: fit-content;
 
         display: flex;
         justify-content: center;
 
         margin: 0;
-        padding: 0;
+        padding: 0 0 3em 0;
+
+        color: var(--text-color);
+        background-color: var(--background-color);
+    }
+
+    a {
+        color: var(--text-color);
+        text-decoration: none;
     }
 
     #header {
@@ -67,7 +95,7 @@
         top: 0;
         left: 0;
 
-        background: #fff;
+        background-color: var(--background-color);
         box-shadow: 0 0 10px #000;
     }
 
@@ -94,6 +122,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        background-color: inherit;
     }
 
     #menu-line, #times-line {
@@ -132,10 +162,21 @@
         cursor: pointer;
     }
 
+    #dark-mode-off {
+        cursor: pointer;
+    }
+
+    #dark-mode-on {
+        cursor: pointer;
+        display: none;
+        filter: var(--svg-filter);
+    }
+
     @media screen and (max-width: 1100px) {
         #author-name {
             font-size: 1.5em;
         }
+
         #navigation {
             margin: 0;
             padding: 0;
@@ -154,12 +195,12 @@
             top: 0;
             left: 0;
 
-            background: #fff;
             box-shadow: 0 0 50px black;
         }
 
         #menu-line, #times-line {
             display: unset;
+            filter: var(--svg-filter);
         }
 
         .link {
@@ -179,8 +220,8 @@
 {{{style}}}
 
 <script>
-    function goto(url) {
-        window.location = url;
+    if (localStorage.getItem("darkMode") === "true") {
+        darkModeOn()
     }
 
     function openNav() {
@@ -189,5 +230,27 @@
 
     function closeNav() {
         document.getElementById("navigation").style.display = "none";
+    }
+
+    function darkModeOn() {
+        document.getElementById("dark-mode-off").style.display = "none";
+        document.getElementById("dark-mode-on").style.display = "initial";
+
+        let r = document.querySelector(":root");
+        r.style.setProperty("--background-color", "#1a1a1a");
+        r.style.setProperty("--text-color", "#fff");
+        r.style.setProperty("--svg-filter", "invert(100%)");
+        localStorage.setItem("darkMode", "true");
+    }
+
+    function darkModeOff() {
+        document.getElementById("dark-mode-on").style.display = "none";
+        document.getElementById("dark-mode-off").style.display = "initial";
+
+        let r = document.querySelector(":root");
+        r.style.setProperty("--background-color", "#fff");
+        r.style.setProperty("--text-color", "#000");
+        r.style.setProperty("--svg-filter", "invert(0%)");
+        localStorage.setItem("darkMode", "false");
     }
 </script>

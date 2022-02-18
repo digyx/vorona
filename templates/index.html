@@ -1,17 +1,15 @@
 <div id="body">
     {{#books}}
-    <div class="book">
+    <a href="/book/{{slug}}" class="book">
         <img
             src="https://cdn.vorona.gg/books/{{slug}}.png"
             alt="Well shit, that didn't work..."
-            style="cursor: pointer;"
-            onclick="goto('/book/{{slug}}')"
         />
         <h3>{{ title }}</h3>
         {{^is_released}}
         <i>Releases {{release_date}}</i>
         {{/is_released}}
-    </div>
+    </a>
     {{/books}}
 </div>
 

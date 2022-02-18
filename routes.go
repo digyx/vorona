@@ -26,6 +26,7 @@ func service() http.Handler {
 
 	r.Get("/", index)
 	r.Get("/about", about)
+	r.Get("/license", license)
 	r.Get("/book/{slug:[A-Za-z]+}", book)
 
 	// API Routes
@@ -74,7 +75,23 @@ func index(w http.ResponseWriter, r *http.Request) {
 func about(w http.ResponseWriter, r *http.Request) {
 	res, err := renderTemplate(
 		"about",
-		"About Devon - Vorona",
+		"About Me - Vorona",
+		make(map[string]interface{}),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Write([]byte(res))
+}
+
+func license(w http.ResponseWriter, r *http.Request) {
+	res, err := renderTemplate(
+		"license",
+		"License - Vorona",
 		make(map[string]interface{}),
 	)
 

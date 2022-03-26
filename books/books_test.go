@@ -28,7 +28,7 @@ func TestBook_ToMustache(t *testing.T) {
 			want: map[string]interface{}{
 				"slug":         "AzureWitch",
 				"title":        "Death of the Azure Witch",
-				"description":  "This is a real book.",
+				"description":  "<p>This is a real book.</p>",
 				"is_released":  false,
 				"release_date": "January 01 2300",
 			},
@@ -44,7 +44,7 @@ func TestBook_ToMustache(t *testing.T) {
 			want: map[string]interface{}{
 				"slug":         "AzureWitch",
 				"title":        "Death of the Azure Witch",
-				"description":  "This is a real book.",
+				"description":  "<p>This is a real book.</p>",
 				"is_released":  false,
 				"release_date": "December 31 2299",
 			},
@@ -60,7 +60,23 @@ func TestBook_ToMustache(t *testing.T) {
 			want: map[string]interface{}{
 				"slug":         "AzureWitch",
 				"title":        "Death of the Azure Witch",
-				"description":  "This is a real book.",
+				"description":  "<p>This is a real book.</p>",
+				"is_released":  true,
+				"release_date": "January 01 1970",
+			},
+		},
+		{
+			name: "Markdown",
+			fields: fields{
+				Slug:        "AzureWitch",
+				Title:       "Death of the Azure Witch",
+				Description: "*This* is a **real** book.",
+				ReleaseTime: 0,
+			},
+			want: map[string]interface{}{
+				"slug":         "AzureWitch",
+				"title":        "Death of the Azure Witch",
+				"description":  "<p><em>This</em> is a <strong>real</strong> book.</p>",
 				"is_released":  true,
 				"release_date": "January 01 1970",
 			},

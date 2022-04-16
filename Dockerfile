@@ -6,7 +6,6 @@ WORKDIR /usr/src/app
 RUN apk add build-base git
 
 COPY . .
-RUN rm vorona.db
 
 RUN go mod download
 RUN go build -o vorona

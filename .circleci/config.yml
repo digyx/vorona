@@ -1,0 +1,52 @@
+version: 2.1
+
+jobs:
+  default:
+    docker:
+      - image: golang:alpine
+    steps:
+      - checkout
+      - run: apk add build-base
+      - run:
+          name: "gofmt"
+          command: "if [ \"$(gofmt -s -l . | wc -l)\" -gt 0 ]; then exit 1; fi"
+      - run: "go vet ./..."
+      - run: "go test ./..."
+
+  docker-build-and-push:
+    docker:
+      - image: docker:git
+    environment:
+      IMAGE_NAME: registry.digitalocean.com/vorona/vorona
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install doctl
+          command: |
+            wget https://github.com/digitalocean/doctl/releases/download/v1.73.0/doctl-1.73.0-linux-amd64.tar.gz
+            tar xf doctl-1.73.0-linux-amd64.tar.gz
+            mv doctl /usr/local/bin/doctl
+      - run:
+          name: Docker Build
+          command: docker build -t $IMAGE_NAME .
+      - run:
+          name: Registry Login
+          command: doctl registry login --expiry-seconds 300 -t $DIGITALOCEAN_TOKEN
+      - run:
+          name: Upload Docker Image
+          command: docker push $IMAGE_NAME:latest
+
+workflows:
+  primary:
+    jobs:
+      - default
+      - docker-build-and-push:
+          requires:
+            - default
+          context:
+            - digitalocean
+          filters:
+            branches:
+              only:
+                - main

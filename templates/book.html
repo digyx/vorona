@@ -13,15 +13,19 @@
 
     {{#is_released}}
     <div id="download" >
-        <button>
-            <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
-            PDF
-        </button>
+        <a href="https://cdn.vorona.gg/books/{{slug}}.pdf" download/>
+            <button>
+                <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
+                PDF
+            </button>
+        </a>
 
-        <button>
-            <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
-            ePub
-        </button>
+        <a href="https://cdn.vorona.gg/books/{{slug}}.epub" download/>
+            <button>
+                <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
+                ePub
+            </button>
+        </a>
     </div>
     {{/is_released}}
     <div id="description">

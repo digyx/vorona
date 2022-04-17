@@ -17,14 +17,13 @@ import (
 var database db.Database
 
 func main() {
-	conn, err := connectToDatabase()
+	var err error
+	database, err = sqlite.New()
 	if err != nil {
 		fmt.Println("error: could not connect to database")
 		fmt.Println(err)
 		return
 	}
-
-	database = &sqlite.SQLite{DB: conn}
 
 	// The HTTP Server
 	server := &http.Server{Addr: "0.0.0.0:8080", Handler: service()}

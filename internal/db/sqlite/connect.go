@@ -1,17 +1,21 @@
-package main
+package sqlite
 
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func connectToDatabase() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "./vorona.db")
+type SQLite struct {
+	DB *sql.DB
+}
+
+func New() (*SQLite, error) {
+	conn, err := sql.Open("sqlite3", "./vorona.db")
 	if err != nil {
 		return nil, err
 	}
 
-	tx, err := db.Begin()
+	tx, err := conn.Begin()
 	if err != nil {
 		return nil, err
 	}
@@ -34,5 +38,5 @@ func connectToDatabase() (*sql.DB, error) {
 		return nil, err
 	}
 
-	return db, nil
+	return &SQLite{DB: conn}, nil
 }

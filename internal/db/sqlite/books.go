@@ -1,7 +1,6 @@
 package sqlite
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/digyx/vorona/internal"
@@ -13,10 +12,6 @@ type bookSchema struct {
 	Title       string `db:"title"`
 	Description string `db:"description"`
 	ReleaseTime int64  `db:"release_time"`
-}
-
-type SQLite struct {
-	DB *sql.DB
 }
 
 func (self *SQLite) AllBooks() ([]internal.Book, error) {

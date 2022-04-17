@@ -64,7 +64,7 @@ docker:
 	@docker run \
 		--name vorona \
 		-p 8080:8080 \
-		-v $(CURDIR)/vorona.db:/usr/src/app/vorona.db \
+		-v $(CURDIR)/vorona.db:/opt/vorona/vorona.db \
 		-d \
 		vorona
 

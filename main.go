@@ -10,7 +10,7 @@ import (
 
 func main() {
 	var err error
-	database, err := sqlite.New()
+	database, err := sqlite.New("vorona.db")
 	if err != nil {
 		fmt.Println("error: could not connect to database")
 		fmt.Println(err)

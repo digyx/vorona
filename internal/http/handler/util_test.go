@@ -7,7 +7,7 @@ import (
 	"github.com/digyx/vorona/internal"
 )
 
-func TestBook_ToMustache(t *testing.T) {
+func TestBookToMustache(t *testing.T) {
 	type fields struct {
 		Slug        string
 		Title       string
@@ -94,7 +94,7 @@ func TestBook_ToMustache(t *testing.T) {
 				ReleaseTime: tt.fields.ReleaseTime,
 			}
 			if got := BookToMustache(book); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Book.ToMustache() = %v, want %v", got, tt.want)
+				t.Errorf("BookToMustache() = %v, want %v", got, tt.want)
 			}
 		})
 	}

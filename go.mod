@@ -1,4 +1,4 @@
-module dev.vorona.gg/digyx/vorona
+module github.com/digyx/vorona
 
 go 1.17
 

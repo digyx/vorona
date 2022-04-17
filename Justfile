@@ -1,9 +1,10 @@
 exename := "vorona"
 docker-image := "registry.digitalocean.com/vorona/vorona"
+dev-db := justfile_directory() + "/vorona.db"
 
 # Replace vorona.db with fresh copy
 dev-db:
-    python3 dev-database.py
+    go run *.go --sqlite {{dev-db}} dev-db
 
 # Create fresh vorona.db; lint and run tests
 test: dev-db
@@ -16,9 +17,9 @@ build:
     @if [ ! -d bin ]; then mkdir bin; fi
     go build -o bin/{{exename}}
 
-# Build and run binary
+# Build and run binary in dev mode
 run: build
-    ./bin/vorona
+    ./bin/vorona --sqlite {{dev-db}} start
 
 # Docker Commands
 # Build latest vorona image

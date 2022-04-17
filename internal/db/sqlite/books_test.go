@@ -5,22 +5,13 @@ import (
 	"testing"
 
 	"github.com/digyx/vorona/internal"
+	"github.com/digyx/vorona/mock"
 )
 
 func TestAllBooks(t *testing.T) {
 	expected := []internal.Book{
-		{
-			Slug:        "AzureWitch",
-			Title:       "Death of the Azure Witch",
-			Description: "This is a real book.",
-			ReleaseTime: 1646006400,
-		},
-		{
-			Slug:        "BloodOath",
-			Title:       "Blood Oath",
-			Description: "Sometimes, someone needs to die.",
-			ReleaseTime: 1644796800,
-		},
+		mock.AzureWitch,
+		mock.BloodOath,
 	}
 
 	db, err := New("../../../vorona.db")
@@ -39,12 +30,7 @@ func TestAllBooks(t *testing.T) {
 }
 
 func TestBook(t *testing.T) {
-	expected := internal.Book{
-		Slug:        "AzureWitch",
-		Title:       "Death of the Azure Witch",
-		Description: "This is a real book.",
-		ReleaseTime: 1646006400,
-	}
+	expected := mock.AzureWitch
 
 	db, err := New("../../../vorona.db")
 	if err != nil {

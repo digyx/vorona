@@ -8,20 +8,14 @@ import (
 )
 
 func TestBookToMustache(t *testing.T) {
-	type fields struct {
-		Slug        string
-		Title       string
-		Description string
-		ReleaseTime int64
-	}
 	tests := []struct {
 		name   string
-		fields fields
+		fields internal.Book
 		want   map[string]interface{}
 	}{
 		{
 			name: "12:00:00AM UTC",
-			fields: fields{
+			fields: internal.Book{
 				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
 				Description: "This is a real book.",
@@ -37,7 +31,7 @@ func TestBookToMustache(t *testing.T) {
 		},
 		{
 			name: "11:59:59PM UTC",
-			fields: fields{
+			fields: internal.Book{
 				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
 				Description: "This is a real book.",
@@ -53,7 +47,7 @@ func TestBookToMustache(t *testing.T) {
 		},
 		{
 			name: "Released",
-			fields: fields{
+			fields: internal.Book{
 				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
 				Description: "This is a real book.",
@@ -69,7 +63,7 @@ func TestBookToMustache(t *testing.T) {
 		},
 		{
 			name: "Markdown",
-			fields: fields{
+			fields: internal.Book{
 				Slug:        "AzureWitch",
 				Title:       "Death of the Azure Witch",
 				Description: "*This* is a **real** book.",

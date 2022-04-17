@@ -1,6 +1,6 @@
 module github.com/digyx/vorona
 
-go 1.17
+go 1.18
 
 require (
 	github.com/cbroglie/mustache v1.3.1

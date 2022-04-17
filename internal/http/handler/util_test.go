@@ -1,8 +1,10 @@
-package internal
+package handler
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/digyx/vorona/internal"
 )
 
 func TestBook_ToMustache(t *testing.T) {
@@ -85,13 +87,13 @@ func TestBook_ToMustache(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			book := &Book{
+			book := &internal.Book{
 				Slug:        tt.fields.Slug,
 				Title:       tt.fields.Title,
 				Description: tt.fields.Description,
 				ReleaseTime: tt.fields.ReleaseTime,
 			}
-			if got := book.ToMustache(); !reflect.DeepEqual(got, tt.want) {
+			if got := BookToMustache(book); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Book.ToMustache() = %v, want %v", got, tt.want)
 			}
 		})

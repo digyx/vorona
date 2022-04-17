@@ -17,8 +17,8 @@ func (self *context) index(w http.ResponseWriter, r *http.Request) {
 
 	var mustacheBooks []map[string]interface{}
 
-	for _, elem := range books {
-		mustacheBooks = append(mustacheBooks, elem.ToMustache())
+	for _, book := range books {
+		mustacheBooks = append(mustacheBooks, BookToMustache(&book))
 	}
 
 	// Render the HTML Page
@@ -85,7 +85,7 @@ func (self *context) book(w http.ResponseWriter, r *http.Request) {
 	res, err := renderTemplate(
 		"book",
 		book.Title,
-		book.ToMustache(),
+		BookToMustache(&book),
 	)
 
 	if err != nil {

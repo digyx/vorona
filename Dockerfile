@@ -15,5 +15,5 @@ EXPOSE 8080
 
 FROM alpine:latest
 RUN apk --update-cache upgrade
-COPY --from=builder /usr/src/app/vorona /usr/loca/bin/vorona
+COPY --from=builder /usr/src/app/vorona /usr/local/bin/vorona
 CMD ["/usr/local/bin/vorona"]

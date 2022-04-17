@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,18 +9,22 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/digyx/vorona/internal/db"
+	"github.com/digyx/vorona/internal/db/sqlite"
 )
 
-var db *sql.DB
+var database db.Database
 
 func main() {
-	var err error
-	db, err = connectToDatabase()
+	conn, err := connectToDatabase()
 	if err != nil {
 		fmt.Println("error: could not connect to database")
 		fmt.Println(err)
 		return
 	}
+
+	database = &sqlite.SQLite{DB: conn}
 
 	// The HTTP Server
 	server := &http.Server{Addr: "0.0.0.0:8080", Handler: service()}

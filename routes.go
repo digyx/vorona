@@ -9,8 +9,6 @@ import (
 	"github.com/cbroglie/mustache"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-
-	"github.com/digyx/vorona/internal"
 )
 
 func service() http.Handler {
@@ -41,7 +39,7 @@ func service() http.Handler {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	books, err := internal.GetAllBooks(db)
+	books, err := database.AllBooks()
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -107,7 +105,7 @@ func license(w http.ResponseWriter, r *http.Request) {
 func book(w http.ResponseWriter, r *http.Request) {
 	bookSlug := chi.URLParam(r, "slug")
 
-	book, err := internal.GetBook(db, bookSlug)
+	book, err := database.Book(bookSlug)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -133,7 +131,7 @@ func book(w http.ResponseWriter, r *http.Request) {
 // API Handlers
 func apiBook(w http.ResponseWriter, r *http.Request) {
 	bookSlug := chi.URLParam(r, "slug")
-	book, err := internal.GetBook(db, bookSlug)
+	book, err := database.Book(bookSlug)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -144,7 +142,7 @@ func apiBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func apiBooks(w http.ResponseWriter, r *http.Request) {
-	books, err := internal.GetAllBooks(db)
+	books, err := database.AllBooks()
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

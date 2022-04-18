@@ -14,7 +14,7 @@ func TestAllBooks(t *testing.T) {
 		mock.BloodOath,
 	}
 
-	db, err := New("../../../vorona.db")
+	db, err := New("../../vorona.db")
 	if err != nil {
 		t.Error(err)
 	}
@@ -32,7 +32,7 @@ func TestAllBooks(t *testing.T) {
 func TestBook(t *testing.T) {
 	expected := mock.AzureWitch
 
-	db, err := New("../../../vorona.db")
+	db, err := New("../../vorona.db")
 	if err != nil {
 		t.Error(err)
 	}

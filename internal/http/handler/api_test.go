@@ -8,10 +8,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/digyx/vorona/internal"
 	"github.com/digyx/vorona/internal/sqlite"
 	"github.com/digyx/vorona/mock"
 )
 
+// All of these tests are basically the same, so I abstracted them
 func executeTest(path string, expected string) error {
 	recorder := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", path, nil)
@@ -42,6 +44,15 @@ func executeTest(path string, expected string) error {
 func TestApiBook(t *testing.T) {
 	expected, _ := json.Marshal(mock.AzureWitch)
 	err := executeTest("/api/book/AzureWitch", string(expected))
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestApiBooks(t *testing.T) {
+	expected, _ := json.Marshal([]internal.Book{mock.AzureWitch, mock.BloodOath})
+	err := executeTest("/api/book", string(expected))
 
 	if err != nil {
 		t.Error(err)

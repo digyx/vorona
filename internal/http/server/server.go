@@ -17,15 +17,17 @@ type Server struct {
 	cancel     context.CancelFunc
 }
 
+// Create a new Server struct
 func New(addr string, handler http.Handler) Server {
 	ctx, cancel := context.WithCancel(context.Background())
 
+	// Listen for SIGHUP, SIGINT, SIGTERM and pass them in the channel
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 
 	server := Server{
 		server: &http.Server{
-			Addr:    "0.0.0.0:8080",
+			Addr:    addr,
 			Handler: handler,
 		},
 		ctx:        ctx,
@@ -52,6 +54,7 @@ func (self *Server) ListenAndServe() {
 		log.Fatal(err)
 	}
 
+	// Wait for it to be done before exiting
 	<-self.ctx.Done()
 }
 
@@ -59,6 +62,10 @@ func (self *Server) Shutdown() error {
 	shutdownCtx, cancel := context.WithTimeout(self.ctx, 30*time.Second)
 	defer cancel()
 
+	// Tell ListenAndServe that it can shutdown once this function exits
+	defer self.cancel()
+
+	// Crucify the server if it doesn't shutdwon in 30 seconds
 	go func() {
 		<-shutdownCtx.Done()
 		if shutdownCtx.Err() == context.DeadlineExceeded {
@@ -66,12 +73,11 @@ func (self *Server) Shutdown() error {
 		}
 	}()
 
+	// Attempt the actual shutdown
 	err := self.server.Shutdown(shutdownCtx)
 	if err != nil {
 		return err
 	}
-
-	self.cancel()
 
 	return nil
 }

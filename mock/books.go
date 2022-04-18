@@ -24,7 +24,7 @@ var (
 		ReleaseTime: 1644796800,
 	}
 
-	bookMocks []internal.Book = []internal.Book{
+	AllBookMocks []internal.Book = []internal.Book{
 		AzureWitch,
 		BloodOath,
 	}
@@ -60,7 +60,7 @@ func RebuildDevelopmentDatabase(path string) error {
 
 	tx.Exec(createTableStmt)
 
-	for _, book := range bookMocks {
+	for _, book := range AllBookMocks {
 		insertStmt.Exec(book.Slug, book.Title, book.Description, book.ReleaseTime)
 	}
 

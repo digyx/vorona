@@ -4,15 +4,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/digyx/vorona/internal"
 	"github.com/digyx/vorona/mock"
 )
 
+// Does whatcha think; ensures the AllBooks and Book functions work as expected
 func TestAllBooks(t *testing.T) {
-	expected := []internal.Book{
-		mock.AzureWitch,
-		mock.BloodOath,
-	}
+	expected := mock.AllBookMocks
 
 	db, err := New("../../vorona.db")
 	if err != nil {
@@ -29,6 +26,7 @@ func TestAllBooks(t *testing.T) {
 	}
 }
 
+// Ensure internal.Book decode works
 func TestBook(t *testing.T) {
 	expected := mock.AzureWitch
 

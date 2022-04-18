@@ -11,6 +11,7 @@ import (
 	"github.com/gomarkdown/markdown"
 )
 
+// This transforms the internal.Book struct into a map used by mustache to fill in templates
 func BookToMustache(book *internal.Book) map[string]interface{} {
 	release_date := time.Unix(book.ReleaseTime, 0).UTC()
 	is_released := time.Now().After(release_date)
@@ -26,6 +27,8 @@ func BookToMustache(book *internal.Book) map[string]interface{} {
 	}
 }
 
+// Combine base.html with pageName.html and its .style.html files
+// context is the data used to fill in the template
 func renderTemplate(pageName string, title string, context interface{}) (string, error) {
 	html_filename := fmt.Sprintf("templates/%s.html", pageName)
 	style_filename := fmt.Sprintf("templates/%s.style.html", pageName)
@@ -41,9 +44,9 @@ func renderTemplate(pageName string, title string, context interface{}) (string,
 	}
 
 	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
-		"title":   title,
-		"content": content,
-		"style":   string(style),
+		"title":   title,         // <head><title>
+		"content": content,       // pageName.html
+		"style":   string(style), // pageName.style.html
 	})
 	if err != nil {
 		return "", err

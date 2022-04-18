@@ -8,7 +8,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/digyx/vorona/internal"
 	"github.com/digyx/vorona/internal/sqlite"
 	"github.com/digyx/vorona/mock"
 )
@@ -51,7 +50,7 @@ func TestApiBook(t *testing.T) {
 }
 
 func TestApiBooks(t *testing.T) {
-	expected, _ := json.Marshal([]internal.Book{mock.AzureWitch, mock.BloodOath})
+	expected, _ := json.Marshal(mock.AllBookMocks)
 	err := executeTest("/api/book", string(expected))
 
 	if err != nil {

@@ -7,6 +7,7 @@ import (
 	"github.com/digyx/vorona/internal"
 )
 
+// These needs mocks
 func TestBookToMustache(t *testing.T) {
 	tests := []struct {
 		name   string
@@ -14,6 +15,8 @@ func TestBookToMustache(t *testing.T) {
 		want   map[string]interface{}
 	}{
 		{
+			// Test that midnight UTC display as the correct day
+			// Timezones are a pain
 			name: "12:00:00AM UTC",
 			fields: internal.Book{
 				Slug:        "AzureWitch",
@@ -30,6 +33,7 @@ func TestBookToMustache(t *testing.T) {
 			},
 		},
 		{
+			// Same as above but the previous day
 			name: "11:59:59PM UTC",
 			fields: internal.Book{
 				Slug:        "AzureWitch",
@@ -46,6 +50,7 @@ func TestBookToMustache(t *testing.T) {
 			},
 		},
 		{
+			// Test that books are marked release if it's passed now
 			name: "Released",
 			fields: internal.Book{
 				Slug:        "AzureWitch",
@@ -62,6 +67,7 @@ func TestBookToMustache(t *testing.T) {
 			},
 		},
 		{
+			// Ensure that markdown is properly rendered
 			name: "Markdown",
 			fields: internal.Book{
 				Slug:        "AzureWitch",
@@ -79,6 +85,7 @@ func TestBookToMustache(t *testing.T) {
 		},
 	}
 
+	// Run the test cases
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			book := &internal.Book{

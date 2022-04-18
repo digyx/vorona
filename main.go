@@ -75,8 +75,7 @@ func run(c *cli.Context) error {
 	httpHandler := handler.New(database)
 
 	// Setup the webserver
-	server, cancel := server.New(c.String("bind"), httpHandler)
-	defer cancel()
+	server := server.New(c.String("bind"), httpHandler)
 
 	// This is blocking
 	server.ListenAndServe()

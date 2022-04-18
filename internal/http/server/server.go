@@ -14,9 +14,10 @@ type Server struct {
 	server     *http.Server
 	ctx        context.Context
 	signalChan chan os.Signal
+	cancel     context.CancelFunc
 }
 
-func New(addr string, handler http.Handler) (Server, context.CancelFunc) {
+func New(addr string, handler http.Handler) Server {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	sig := make(chan os.Signal, 1)
@@ -29,9 +30,10 @@ func New(addr string, handler http.Handler) (Server, context.CancelFunc) {
 		},
 		ctx:        ctx,
 		signalChan: sig,
+		cancel:     cancel,
 	}
 
-	return server, cancel
+	return server
 }
 
 func (self *Server) ListenAndServe() {
@@ -57,10 +59,19 @@ func (self *Server) Shutdown() error {
 	shutdownCtx, cancel := context.WithTimeout(self.ctx, 30*time.Second)
 	defer cancel()
 
+	go func() {
+		<-shutdownCtx.Done()
+		if shutdownCtx.Err() == context.DeadlineExceeded {
+			log.Fatal("graceful shutdown timed out... forcing exit")
+		}
+	}()
+
 	err := self.server.Shutdown(shutdownCtx)
 	if err != nil {
 		return err
 	}
+
+	self.cancel()
 
 	return nil
 }

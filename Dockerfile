@@ -20,4 +20,4 @@ WORKDIR /opt/vorona
 COPY --from=builder /usr/src/app/vorona /usr/local/bin/vorona
 COPY templates/ /opt/vorona/templates
 
-CMD ["/usr/local/bin/vorona"]
+CMD ["/usr/local/bin/vorona", "--sqlite", "/opt/vorona/vorona.db", "start"]

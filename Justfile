@@ -26,11 +26,12 @@ run: build
 docker-build:
     docker build -t {{docker-image}} .
 
-# Remove old container and run latest
-docker-run:
-    @if (docker ps -a | grep -q vorona); then \
-        echo "Cleaning up old docker container..."; \
-        docker rm --force vorona \
+# Remove old container and build & run latest
+docker-run: docker-build
+    #!/usr/bin/env bash
+    if (docker ps -a | grep -q vorona); then
+        echo "Cleaning up old docker container...";
+        docker rm --force vorona;
     fi
     docker run \
         --name vorona \

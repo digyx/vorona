@@ -6,3 +6,8 @@ type Book struct {
 	Description string `json:"description"`
 	ReleaseTime int64  `json:"release_time"`
 }
+
+type Database interface {
+	Book(id string) (Book, error)
+	AllBooks() ([]Book, error)
+}

@@ -3,16 +3,16 @@ package handler
 import (
 	"net/http"
 
-	"github.com/digyx/vorona/internal/db"
+	"github.com/digyx/vorona/internal"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
 type context struct {
-	db db.Database
+	db internal.Database
 }
 
-func New(db db.Database) http.Handler {
+func New(db internal.Database) http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)

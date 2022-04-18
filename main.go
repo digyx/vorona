@@ -7,9 +7,9 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/digyx/vorona/internal/db/sqlite"
 	"github.com/digyx/vorona/internal/http/handler"
 	"github.com/digyx/vorona/internal/http/server"
+	"github.com/digyx/vorona/internal/sqlite"
 	"github.com/digyx/vorona/mock"
 )
 
@@ -34,6 +34,7 @@ func main() {
 				Usage:  "Start the webserver",
 				Action: run,
 			},
+			// Used during development for a consistent environment
 			{
 				Name:  "dev-db",
 				Usage: "Rebuild the SQLlite DB for development",
@@ -55,12 +56,15 @@ func main() {
 	}
 }
 
+// Actually start the webserver with a SQLite database
 func run(c *cli.Context) error {
+	// Grab db path from sqlite flag
 	sqlitePath := c.String("sqlite")
 	if sqlitePath == "" {
 		return fmt.Errorf("error: sqlite flag is required")
 	}
 
+	// Connect to DB
 	database, err := sqlite.New(sqlitePath)
 	if err != nil {
 		log.Print("error: could not connect to database")
@@ -70,7 +74,7 @@ func run(c *cli.Context) error {
 	// Initialize Handler
 	httpHandler := handler.New(database)
 
-	// Setup and run webserver
+	// Setup the webserver
 	server, cancel := server.New(c.String("bind"), httpHandler)
 	defer cancel()
 

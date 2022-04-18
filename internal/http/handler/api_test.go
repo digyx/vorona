@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/digyx/vorona/internal/db/sqlite"
+	"github.com/digyx/vorona/internal/sqlite"
 	"github.com/digyx/vorona/mock"
 )
 

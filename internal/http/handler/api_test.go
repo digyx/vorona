@@ -8,7 +8,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/digyx/vorona/internal/sqlite"
 	"github.com/digyx/vorona/mock"
 )
 
@@ -20,13 +19,8 @@ func executeTest(path string, expected string) error {
 		return err
 	}
 
-	db, err := sqlite.New("../../../vorona.db")
-	if err != nil {
-		return err
-	}
-
-	router := New(db)
-	router.ServeHTTP(recorder, req)
+	// Serve the HTTP request
+	testChiRouter.ServeHTTP(recorder, req)
 
 	if status := recorder.Code; status != http.StatusOK {
 		return fmt.Errorf("expected status 200, got %d", status)

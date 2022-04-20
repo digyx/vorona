@@ -13,8 +13,8 @@ var (
 	AzureWitch internal.Book = internal.Book{
 		Slug:        "AzureWitch",
 		Title:       "Death of the Azure Witch",
-		Description: "This is a real novella.",
-		ReleaseTime: 1646006400,
+		Description: "This is a real book.",
+		ReleaseTime: 0,
 	}
 
 	BloodOath internal.Book = internal.Book{
@@ -24,9 +24,33 @@ var (
 		ReleaseTime: 1644796800,
 	}
 
+	MidnightRelease internal.Book = internal.Book{
+		Slug:        "MidnightRain",
+		Title:       "Midnight Rain",
+		Description: "Amaya Kuroshi",
+		ReleaseTime: 10413792000,
+	}
+
+	EleventhHour internal.Book = internal.Book{
+		Slug:        "EleventhHour",
+		Title:       "Dri Daltan",
+		Description: "Time stood still.",
+		ReleaseTime: 10413791999,
+	}
+
+	MarkOfInsanity internal.Book = internal.Book{
+		Slug:        "MarkOfInsanity",
+		Title:       "Mark of Insanity",
+		Description: "**This** is *the* moment.",
+		ReleaseTime: 1,
+	}
+
 	AllBookMocks []internal.Book = []internal.Book{
-		AzureWitch,
+		MidnightRelease,
+		EleventhHour,
 		BloodOath,
+		MarkOfInsanity,
+		AzureWitch,
 	}
 )
 

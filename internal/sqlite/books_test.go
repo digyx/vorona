@@ -16,7 +16,7 @@ func TestAllBooks(t *testing.T) {
 		t.Error(err)
 	}
 
-	result, err := db.AllBooks()
+	result, err := db.GetAllBooks()
 	if err != nil {
 		t.Error(err)
 	}
@@ -35,7 +35,7 @@ func TestBook(t *testing.T) {
 		t.Error(err)
 	}
 
-	result, err := db.Book("AzureWitch")
+	result, err := db.GetBook("AzureWitch")
 	if err != nil {
 		t.Error(err)
 	}

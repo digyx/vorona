@@ -1,24 +1,23 @@
-package sqlite
+package postgres
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/digyx/vorona/internal"
 )
 
-// This is the actual struct stored in SQLite
-// Currently unused...not great
 type bookSchema struct {
-	ID          int64  `db:"book_id"`
-	Slug        string `db:"slug"`
-	Title       string `db:"title"`
-	Description string `db:"description"`
-	ReleaseTime int64  `db:"release_time"`
+	ID          int64
+	Slug        string
+	Title       string
+	Description string
+	ReleaseTime string
 }
 
-// Grab all the books in a list; ordered from newest to oldest release time
-func (self *SQLite) GetAllBooks() ([]internal.Book, error) {
-	rows, err := self.DB.Query(`
+func (self *Postgres) GetAllBooks() ([]internal.Book, error) {
+	rows, err := self.DB.Query(
+		context.Background(), `
 		SELECT slug, title, description, release_time
 		FROM books
 		ORDER BY release_time DESC
@@ -45,9 +44,9 @@ func (self *SQLite) GetAllBooks() ([]internal.Book, error) {
 	return books, nil
 }
 
-// Grab just a single book by its slug
-func (self *SQLite) GetBook(slug string) (internal.Book, error) {
-	res := self.DB.QueryRow(`
+func (self *Postgres) GetBook(slug string) (internal.Book, error) {
+	res := self.DB.QueryRow(
+		context.Background(), `
 		SELECT slug, title, description, release_time
 		FROM books
 		WHERE slug=$1

@@ -10,6 +10,6 @@ type Book struct {
 
 // Generalized DB struct used for switching between sqlite and postgres (TBA)
 type Database interface {
-	Book(id string) (Book, error)
-	AllBooks() ([]Book, error)
+	GetBook(id string) (Book, error)
+	GetAllBooks() ([]Book, error)
 }

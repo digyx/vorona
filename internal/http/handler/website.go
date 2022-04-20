@@ -8,7 +8,7 @@ import (
 )
 
 func (self *context) index(w http.ResponseWriter, r *http.Request) {
-	books, err := self.db.AllBooks()
+	books, err := self.db.GetAllBooks()
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -74,7 +74,7 @@ func license(w http.ResponseWriter, r *http.Request) {
 func (self *context) book(w http.ResponseWriter, r *http.Request) {
 	bookSlug := chi.URLParam(r, "slug")
 
-	book, err := self.db.Book(bookSlug)
+	book, err := self.db.GetBook(bookSlug)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

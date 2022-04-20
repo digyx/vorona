@@ -12,7 +12,7 @@ import (
 func (self *context) apiBook(w http.ResponseWriter, r *http.Request) {
 	bookSlug := chi.URLParam(r, "slug")
 
-	book, err := self.db.Book(bookSlug)
+	book, err := self.db.GetBook(bookSlug)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -24,7 +24,7 @@ func (self *context) apiBook(w http.ResponseWriter, r *http.Request) {
 
 // Return a list of all books
 func (self *context) apiBooks(w http.ResponseWriter, r *http.Request) {
-	books, err := self.db.AllBooks()
+	books, err := self.db.GetAllBooks()
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

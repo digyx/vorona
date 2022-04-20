@@ -7,8 +7,10 @@ import (
 
 	"github.com/urfave/cli/v2"
 
+	"github.com/digyx/vorona/internal"
 	"github.com/digyx/vorona/internal/http/handler"
 	"github.com/digyx/vorona/internal/http/server"
+	"github.com/digyx/vorona/internal/postgres"
 	"github.com/digyx/vorona/internal/sqlite"
 	"github.com/digyx/vorona/mock"
 )
@@ -21,6 +23,10 @@ func main() {
 			&cli.StringFlag{
 				Name:  "sqlite",
 				Usage: "Path to the SQLite database",
+			},
+			&cli.StringFlag{
+				Name:  "postgres",
+				Usage: "Connection URI for a Postgres Database (priority over SQLite)",
 			},
 			&cli.StringFlag{
 				Name:  "bind",
@@ -58,14 +64,19 @@ func main() {
 
 // Actually start the webserver with a SQLite database
 func run(c *cli.Context) error {
-	// Grab db path from sqlite flag
-	sqlitePath := c.String("sqlite")
-	if sqlitePath == "" {
-		return fmt.Errorf("error: sqlite flag is required")
+	var database internal.Database
+	var err error
+
+	// Determine which database to connect to
+	if postgresURI := c.String("postgres"); postgresURI != "" {
+		database, err = postgres.New(postgresURI)
+	} else if sqlitePath := c.String("sqlite"); sqlitePath != "" {
+		database, err = sqlite.New(sqlitePath)
+	} else {
+		log.Fatal("error: --sqlite or --postgres flag must be passed")
 	}
 
-	// Connect to DB
-	database, err := sqlite.New(sqlitePath)
+	// Terminate on error
 	if err != nil {
 		log.Print("error: could not connect to database")
 		return err

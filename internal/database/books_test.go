@@ -1,9 +1,10 @@
-package sqlite
+package database_test
 
 import (
 	"reflect"
 	"testing"
 
+	. "github.com/digyx/vorona/internal/database"
 	"github.com/digyx/vorona/mock"
 )
 
@@ -11,7 +12,7 @@ import (
 func TestAllBooks(t *testing.T) {
 	expected := mock.AllBookMocks
 
-	db, err := New("../../vorona.db")
+	db, err := New("sqlite", "../../vorona.db")
 	if err != nil {
 		t.Error(err)
 	}
@@ -30,7 +31,7 @@ func TestAllBooks(t *testing.T) {
 func TestBook(t *testing.T) {
 	expected := mock.AzureWitch
 
-	db, err := New("../../vorona.db")
+	db, err := New("sqlite", "../../vorona.db")
 	if err != nil {
 		t.Error(err)
 	}

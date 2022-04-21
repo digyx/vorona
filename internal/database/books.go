@@ -1,4 +1,4 @@
-package sqlite
+package database
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ type bookSchema struct {
 }
 
 // Grab all the books in a list; ordered from newest to oldest release time
-func (self *SQLite) GetAllBooks() ([]internal.Book, error) {
+func (self *SQL) GetAllBooks() ([]internal.Book, error) {
 	rows, err := self.DB.Query(`
 		SELECT slug, title, description, release_time
 		FROM books
@@ -46,7 +46,7 @@ func (self *SQLite) GetAllBooks() ([]internal.Book, error) {
 }
 
 // Grab just a single book by its slug
-func (self *SQLite) GetBook(slug string) (internal.Book, error) {
+func (self *SQL) GetBook(slug string) (internal.Book, error) {
 	res := self.DB.QueryRow(`
 		SELECT slug, title, description, release_time
 		FROM books

@@ -8,7 +8,7 @@ type Book struct {
 	ReleaseTime int64  `json:"release_time"`
 }
 
-// Generalized DB struct used for switching between sqlite and postgres (TBA)
+// Generalized DB interface
 type Database interface {
 	GetBook(id string) (Book, error)
 	GetAllBooks() ([]Book, error)

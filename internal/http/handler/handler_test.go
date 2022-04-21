@@ -5,13 +5,13 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/digyx/vorona/internal/sqlite"
+	"github.com/digyx/vorona/internal/database"
 )
 
 var testChiRouter http.Handler
 
 func TestMain(t *testing.M) {
-	db, err := sqlite.New("../../../vorona.db")
+	db, err := database.New("sqlite", "../../../vorona.db")
 	if err != nil {
 		log.Fatal(err)
 	}

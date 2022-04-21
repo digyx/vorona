@@ -74,17 +74,14 @@ func run(c *cli.Context) error {
 		log.Fatal("error: ether the --sqlite or --postgres flag must be passed")
 	}
 
-	// Terminate on error
+	// Terminate on DB connection error
 	db, err := database.New(driver, dbPath)
 	if err != nil {
-		log.Print("error: could not connect to database")
 		return err
 	}
 
-	// Initialize Handler
-	httpHandler := handler.New(db)
-
 	// Setup the webserver
+	httpHandler := handler.New(db)
 	server := server.New(c.String("bind"), httpHandler)
 
 	// This is blocking

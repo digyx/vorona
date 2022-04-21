@@ -7,7 +7,6 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/digyx/vorona/internal"
 	"github.com/digyx/vorona/internal/database"
 	"github.com/digyx/vorona/internal/http/handler"
 	"github.com/digyx/vorona/internal/http/server"
@@ -63,19 +62,20 @@ func main() {
 
 // Actually start the webserver with a SQLite database
 func run(c *cli.Context) error {
-	var db internal.Database
-	var err error
+	var driver string
+	var dbPath string
 
 	// Determine which database to connect to
 	if postgresURI := c.String("postgres"); postgresURI != "" {
-		db, err = database.New("pgx", postgresURI)
+		driver, dbPath = "pgx", postgresURI
 	} else if sqlitePath := c.String("sqlite"); sqlitePath != "" {
-		db, err = database.New("sqlite", sqlitePath)
+		driver, dbPath = "sqlite", sqlitePath
 	} else {
-		log.Fatal("error: --sqlite or --postgres flag must be passed")
+		log.Fatal("error: ether the --sqlite or --postgres flag must be passed")
 	}
 
 	// Terminate on error
+	db, err := database.New(driver, dbPath)
 	if err != nil {
 		log.Print("error: could not connect to database")
 		return err

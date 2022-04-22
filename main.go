@@ -7,6 +7,9 @@ import (
 
 	"github.com/urfave/cli/v2"
 
+	"net/http"
+	_ "net/http/pprof"
+
 	"github.com/digyx/vorona/internal/database"
 	"github.com/digyx/vorona/internal/http/handler"
 	"github.com/digyx/vorona/internal/http/server"
@@ -14,6 +17,12 @@ import (
 )
 
 func main() {
+	// Start pprof
+	go func() {
+		log.Println(http.ListenAndServe("localhost:4560", nil))
+	}()
+
+	// Start actual app
 	app := &cli.App{
 		Name:  "vorona",
 		Usage: "Webserver for vorona.gg",

@@ -1,4 +1,4 @@
-package server
+package server_test
 
 import (
 	"fmt"
@@ -7,6 +7,8 @@ import (
 	"syscall"
 	"testing"
 	"time"
+
+	. "github.com/digyx/vorona/internal/http/server"
 )
 
 // Ensure that the right signals trigger a graceful shutdown
@@ -31,7 +33,7 @@ func TestGracefulShutdown(t *testing.T) {
 			time.Sleep(500 * time.Millisecond)
 
 			// Send the signal to the webserver
-			server.signalChan <- sig
+			syscall.SIGTERM.Signal()
 		})
 	}
 }

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -10,7 +10,7 @@ import (
 func (self *context) index(w http.ResponseWriter, r *http.Request) {
 	books, err := self.db.GetAllBooks()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -31,7 +31,7 @@ func (self *context) index(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -47,7 +47,7 @@ func about(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -63,7 +63,7 @@ func license(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -76,7 +76,7 @@ func (self *context) book(w http.ResponseWriter, r *http.Request) {
 
 	book, err := self.db.GetBook(bookSlug)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -89,7 +89,7 @@ func (self *context) book(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

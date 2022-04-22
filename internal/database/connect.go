@@ -25,8 +25,8 @@ func New(driver, path string) (*SQL, error) {
 	defer cancel()
 
 	// Ensure that the connection doesn't error out
-	err = conn.PingContext(ctx)
-	if err != nil {
+
+	if err := conn.PingContext(ctx); err != nil {
 		return nil, err
 	}
 

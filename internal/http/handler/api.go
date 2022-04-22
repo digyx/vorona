@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -14,7 +14,7 @@ func (self *context) apiBook(w http.ResponseWriter, r *http.Request) {
 
 	book, err := self.db.GetBook(bookSlug)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -26,7 +26,7 @@ func (self *context) apiBook(w http.ResponseWriter, r *http.Request) {
 func (self *context) apiBooks(w http.ResponseWriter, r *http.Request) {
 	books, err := self.db.GetAllBooks()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

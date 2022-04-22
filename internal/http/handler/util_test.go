@@ -1,10 +1,11 @@
-package handler
+package handler_test
 
 import (
 	"reflect"
 	"testing"
 
 	"github.com/digyx/vorona/internal"
+	. "github.com/digyx/vorona/internal/http/handler"
 	"github.com/digyx/vorona/mock"
 )
 

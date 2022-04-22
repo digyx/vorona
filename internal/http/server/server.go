@@ -25,7 +25,7 @@ func New(addr string, handler http.Handler) Server {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 
-	server := Server{
+	return Server{
 		server: &http.Server{
 			Addr:    addr,
 			Handler: handler,
@@ -34,16 +34,14 @@ func New(addr string, handler http.Handler) Server {
 		signalChan: sig,
 		cancel:     cancel,
 	}
-
-	return server
 }
 
 func (self *Server) ListenAndServe() {
 	// Catch SIGINT and SIGTERM then attempt graceful server shutdown
 	go func() {
 		<-self.signalChan
-		err := self.Shutdown()
-		if err != nil {
+
+		if err := self.Shutdown(); err != nil {
 			log.Fatal(err)
 		}
 	}()
@@ -65,7 +63,7 @@ func (self *Server) Shutdown() error {
 	// Tell ListenAndServe that it can shutdown once this function exits
 	defer self.cancel()
 
-	// Crucify the server if it doesn't shutdwon in 30 seconds
+	// Crucify the server if it doesn't shutdown in 30 seconds
 	go func() {
 		<-shutdownCtx.Done()
 		if shutdownCtx.Err() == context.DeadlineExceeded {
@@ -73,11 +71,6 @@ func (self *Server) Shutdown() error {
 		}
 	}()
 
-	// Attempt the actual shutdown
-	err := self.server.Shutdown(shutdownCtx)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	// Attempt the actual shutdown; returns error
+	return self.server.Shutdown(shutdownCtx)
 }

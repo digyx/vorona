@@ -1,8 +1,6 @@
 package database
 
 import (
-	"fmt"
-
 	"github.com/digyx/vorona/internal"
 )
 
@@ -47,19 +45,16 @@ func (self *SQL) GetAllBooks() ([]internal.Book, error) {
 
 // Grab just a single book by its slug
 func (self *SQL) GetBook(slug string) (internal.Book, error) {
-	res := self.DB.QueryRow(`
+	var book internal.Book
+	err := self.DB.QueryRow(`
 		SELECT slug, title, description, release_time
 		FROM books
 		WHERE slug=$1
-	`, slug)
+	`, slug).Scan(&book.Slug, &book.Title, &book.Description, &book.ReleaseTime)
 
-	if res == nil {
-		return internal.Book{}, fmt.Errorf("error: could not find book with slug=%s", slug)
+	if err != nil {
+		return internal.Book{}, err
 	}
-
-	// Decode into internal.Book
-	var book internal.Book
-	res.Scan(&book.Slug, &book.Title, &book.Description, &book.ReleaseTime)
 
 	return book, nil
 }

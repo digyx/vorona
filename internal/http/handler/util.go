@@ -43,14 +43,9 @@ func renderTemplate(pageName string, title string, context interface{}) (string,
 		return "", err
 	}
 
-	res, err := mustache.RenderFile("templates/base.html", map[string]interface{}{
+	return mustache.RenderFile("templates/base.html", map[string]interface{}{
 		"title":   title,         // <head><title>
 		"content": content,       // pageName.html
 		"style":   string(style), // pageName.style.html
 	})
-	if err != nil {
-		return "", err
-	}
-
-	return res, nil
 }

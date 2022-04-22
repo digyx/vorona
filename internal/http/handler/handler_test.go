@@ -1,4 +1,4 @@
-package handler
+package handler_test
 
 import (
 	"log"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/digyx/vorona/internal/database"
+	. "github.com/digyx/vorona/internal/http/handler"
 )
 
 var testChiRouter http.Handler

@@ -28,12 +28,14 @@ func main() {
 		Usage: "Webserver for vorona.gg",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:  "sqlite",
-				Usage: "Path to the SQLite database",
+				Name:    "sqlite",
+				Usage:   "Path to the SQLite database",
+				EnvVars: []string{"SQLITE", "SQLITE_PATH"},
 			},
 			&cli.StringFlag{
-				Name:  "postgres",
-				Usage: "Connection URI for a Postgres Database (priority over SQLite)",
+				Name:    "postgres",
+				Usage:   "Connection URI for a Postgres Database (priority over SQLite)",
+				EnvVars: []string{"POSTGRES", "POSTGRES_URI"},
 			},
 			&cli.StringFlag{
 				Name:  "bind",

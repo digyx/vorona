@@ -12,12 +12,13 @@ type bookSchema struct {
 	Title       string `db:"title"`
 	Description string `db:"description"`
 	ReleaseTime int64  `db:"release_time"`
+	ImageURL    string `db:"image_url"`
 }
 
 // Grab all the books in a list; ordered from newest to oldest release time
 func (self *SQL) GetAllBooks() ([]internal.Book, error) {
 	rows, err := self.DB.Query(`
-		SELECT slug, title, description, release_time
+		SELECT slug, title, description, release_time, image_url
 		FROM books
 		ORDER BY release_time DESC
 	`)
@@ -32,7 +33,13 @@ func (self *SQL) GetAllBooks() ([]internal.Book, error) {
 	books := []internal.Book{}
 	for rows.Next() {
 		var result internal.Book
-		err := rows.Scan(&result.Slug, &result.Title, &result.Description, &result.ReleaseTime)
+		err := rows.Scan(
+			&result.Slug,
+			&result.Title,
+			&result.Description,
+			&result.ReleaseTime,
+			&result.ImageURL,
+		)
 		if err != nil {
 			return nil, err
 		}
@@ -47,10 +54,16 @@ func (self *SQL) GetAllBooks() ([]internal.Book, error) {
 func (self *SQL) GetBook(slug string) (internal.Book, error) {
 	var book internal.Book
 	err := self.DB.QueryRow(`
-		SELECT slug, title, description, release_time
+		SELECT slug, title, description, release_time, image_url
 		FROM books
 		WHERE slug=$1
-	`, slug).Scan(&book.Slug, &book.Title, &book.Description, &book.ReleaseTime)
+	`, slug).Scan(
+		&book.Slug,
+		&book.Title,
+		&book.Description,
+		&book.ReleaseTime,
+		&book.ImageURL,
+	)
 
 	if err != nil {
 		return internal.Book{}, err

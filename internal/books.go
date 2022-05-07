@@ -6,6 +6,7 @@ type Book struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	ReleaseTime int64  `json:"release_time"`
+	ImageURL    string `json:"image_url"`
 }
 
 // Generalized DB interface

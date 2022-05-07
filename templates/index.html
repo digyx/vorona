@@ -2,8 +2,10 @@
     {{#books}}
     <a href="/book/{{slug}}" class="book">
         <img
-            src="https://cdn.vorona.gg/books/{{slug}}.png"
-            alt="Well shit, that didn't work..."
+            src="{{image_url}}"
+            alt="{{title}} Book Cover"
+            height="340px"
+            width="220px"
         />
         <h3>{{ title }}</h3>
         {{^is_released}}

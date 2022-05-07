@@ -2,52 +2,38 @@ package handler_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
 	"github.com/digyx/vorona/mock"
+	"github.com/stretchr/testify/require"
 )
 
 // All of these tests are basically the same, so I abstracted them
-func executeTest(path string, expected string) error {
+func executeTest(t *testing.T, path string, expected string) {
 	recorder := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", path, nil)
-	if err != nil {
-		return err
-	}
+	require.NoError(t, err)
 
 	// Serve the HTTP request
 	testChiRouter.ServeHTTP(recorder, req)
 
-	if status := recorder.Code; status != http.StatusOK {
-		return fmt.Errorf("expected status 200, got %d", status)
-	}
+	status := recorder.Code
+	require.Equal(t, http.StatusOK, status)
 
 	// Strip whitespace because Chi adds in a \n at the end of the result
-	if body := recorder.Body.String(); strings.TrimSpace(body) != expected {
-		return fmt.Errorf("incorrect body\nwant %s\ngot  %s", expected, body)
-	}
-
-	return nil
+	body := strings.TrimSpace(recorder.Body.String())
+	require.Equal(t, expected, body)
 }
 
 func TestApiBook(t *testing.T) {
 	expected, _ := json.Marshal(mock.AzureWitch)
-	err := executeTest("/api/book/AzureWitch", string(expected))
-
-	if err != nil {
-		t.Error(err)
-	}
+	executeTest(t, "/api/book/AzureWitch", string(expected))
 }
 
 func TestApiBooks(t *testing.T) {
 	expected, _ := json.Marshal(mock.AllBookMocks)
-	err := executeTest("/api/book", string(expected))
-
-	if err != nil {
-		t.Error(err)
-	}
+	executeTest(t, "/api/book", string(expected))
 }

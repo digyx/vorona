@@ -24,6 +24,7 @@ func BookToMustache(book *internal.Book) map[string]interface{} {
 		"description":  strings.TrimSpace(description),
 		"release_date": release_date.Format("January 02 2006"),
 		"is_released":  is_released,
+		"image_url":    book.ImageURL,
 	}
 }
 

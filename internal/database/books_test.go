@@ -1,11 +1,11 @@
 package database_test
 
 import (
-	"reflect"
 	"testing"
 
 	. "github.com/digyx/vorona/internal/database"
 	"github.com/digyx/vorona/mock"
+	"github.com/stretchr/testify/require"
 )
 
 // Does whatcha think; ensures the AllBooks and Book functions work as expected
@@ -22,9 +22,7 @@ func TestAllBooks(t *testing.T) {
 		t.Error(err)
 	}
 
-	if !reflect.DeepEqual(result, expected) {
-		t.Errorf("\nwant %v\ngot  %v", expected, result)
-	}
+	require.Equal(t, expected, result)
 }
 
 // Ensure internal.Book decode works
@@ -41,7 +39,5 @@ func TestBook(t *testing.T) {
 		t.Error(err)
 	}
 
-	if !reflect.DeepEqual(result, expected) {
-		t.Errorf("\nwant %v\ngot  %v", expected, result)
-	}
+	require.Equal(t, expected, result)
 }

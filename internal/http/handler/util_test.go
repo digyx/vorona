@@ -27,7 +27,7 @@ func TestBookToMustache(t *testing.T) {
 				"description":  "<p>Amaya Kuroshi</p>",
 				"is_released":  false,
 				"release_date": "January 01 2300",
-				"image_url":    "https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/1a620cdf-5baa-4f67-5341-f90fb19e7f00/public",
+				"image_url":    "https://via.placeholder.com/220x340",
 			},
 		},
 		{
@@ -40,7 +40,7 @@ func TestBookToMustache(t *testing.T) {
 				"description":  "<p>Time stood still.</p>",
 				"is_released":  false,
 				"release_date": "December 31 2299",
-				"image_url":    "https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/1a620cdf-5baa-4f67-5341-f90fb19e7f00/public",
+				"image_url":    "https://via.placeholder.com/220x340",
 			},
 		},
 		{
@@ -66,7 +66,7 @@ func TestBookToMustache(t *testing.T) {
 				"description":  "<p><strong>This</strong> is <em>the</em> moment.</p>",
 				"is_released":  true,
 				"release_date": "January 01 1970",
-				"image_url":    "https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/1a620cdf-5baa-4f67-5341-f90fb19e7f00/public",
+				"image_url":    "https://via.placeholder.com/220x340",
 			},
 		},
 	}

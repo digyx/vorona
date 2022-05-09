@@ -6,10 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="https://cdn.vorona.gg/favicon.ico">
         <title>{{title}}</title>
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
     </head>
     <body id="root">
         <div id="header">
@@ -60,6 +56,14 @@
 </html>
 
 <style>
+    @font-face {
+      font-family: 'Cinzel Decorative';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
     :root {
         --background-color: #fff;
         --text-color: #000;
@@ -92,6 +96,7 @@
 
         display: flex;
         position: fixed;
+        z-index: 2;
         top: 0;
         left: 0;
 
@@ -120,6 +125,7 @@
         margin-left: 40px;
 
         display: flex;
+        z-index: 3;
         align-items: center;
         justify-content: space-between;
 

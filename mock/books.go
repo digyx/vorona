@@ -31,7 +31,7 @@ var (
 		Title:       "Midnight Rain",
 		Description: "Amaya Kuroshi",
 		ReleaseTime: 10413792000,
-		ImageURL:    "https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/1a620cdf-5baa-4f67-5341-f90fb19e7f00/public",
+		ImageURL:    "https://via.placeholder.com/220x340",
 	}
 
 	EleventhHour internal.Book = internal.Book{
@@ -39,7 +39,7 @@ var (
 		Title:       "Dri Daltan",
 		Description: "Time stood still.",
 		ReleaseTime: 10413791999,
-		ImageURL:    "https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/1a620cdf-5baa-4f67-5341-f90fb19e7f00/public",
+		ImageURL:    "https://via.placeholder.com/220x340",
 	}
 
 	MarkOfInsanity internal.Book = internal.Book{
@@ -47,7 +47,7 @@ var (
 		Title:       "Mark of Insanity",
 		Description: "**This** is *the* moment.",
 		ReleaseTime: 1,
-		ImageURL:    "https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/1a620cdf-5baa-4f67-5341-f90fb19e7f00/public",
+		ImageURL:    "https://via.placeholder.com/220x340",
 	}
 
 	AllBookMocks []internal.Book = []internal.Book{

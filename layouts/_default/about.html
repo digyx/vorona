@@ -1,0 +1,34 @@
+{{ define "main" }}
+<div id="body">
+    <img
+        src="https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/9c6c97c7-d235-451e-f9f7-28e20fc8ae00/public"
+        alt="Picture of Devon Tingley"
+        width="320px"
+    />
+
+    <h1>About Me</h1>
+
+    <div>
+        {{ .Content }}
+    </div>
+</div>
+{{ end }}
+
+{{ define "style" }}
+<style>
+    #body {
+        width: 85%;
+        max-width: 600px;
+
+        margin-top: 132px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    img {
+        width: 320px;
+    }
+</style>
+{{ end }}

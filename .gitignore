@@ -1,2 +1,3 @@
-bin/
-*.db
+/resources/_gen/
+
+/.hugo_build.lock

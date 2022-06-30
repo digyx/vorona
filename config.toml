@@ -1,0 +1,6 @@
+baseURL = 'https://vorona.gg/'
+languageCode = 'en-us'
+title = 'Vorona'
+
+disablePathToLower = true
+uglyURLs = true

@@ -5,7 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="https://cdn.vorona.gg/favicon.ico">
-        <title>{{title}}</title>
+        <title>
+            {{ block "title" . }}
+            {{.Site.Title}}
+            {{ end }}
+        </title>
     </head>
     <body id="root">
         <div id="header">
@@ -35,8 +39,8 @@
                 />
 
                 <a class="link" href="/">Home</a>
-                <a class="link" href="/about">About</a>
-                <a class="link" href="/license">License</a>
+                <a class="link" href="/about.html">About</a>
+                <a class="link" href="/license.html">License</a>
 
                 <div id="social-icons">
                     <img
@@ -72,7 +76,8 @@
             </div>
         </div>
 
-        {{{content}}}
+        {{ block "main" . }}
+        {{ end }}
 
     </body>
 </html>
@@ -234,7 +239,8 @@
     }
 </style>
 
-{{{style}}}
+{{ block "style" . }}
+{{ end }}
 
 <script>
     if (localStorage.getItem("darkMode") === "true") {

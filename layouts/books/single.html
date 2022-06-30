@@ -1,0 +1,78 @@
+{{ define "main" }}
+<div id="body">
+    {{ partial "cover-art.html" . }}
+
+    <h1>{{ .Title }}</h1>
+    <i id="release-date">
+        {{ if lt .Date now }}
+            Released
+        {{ else }}
+            Releases on
+        {{ end }}
+        {{ .Date.Format "January 02, 2006" }}
+    </i>
+
+    {{ if lt .Date now }}
+    <div id="download" >
+        <a href="https://cdn.vorona.gg/books/{{ .File.BaseFileName }}.pdf" download/>
+            <button>
+                <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
+                PDF
+            </button>
+        </a>
+
+        <a href="https://cdn.vorona.gg/books/{{ .File.BaseFileName }}.epub" download/>
+            <button>
+                <img src="https://cdn.vorona.gg/icons/technology/download-cloud-line.svg"/>
+                ePub
+            </button>
+        </a>
+    </div>
+    {{ end }}
+    <div id="description">
+        {{ .Content }}
+    </div>
+</div>
+{{ end }}
+
+{{ define "style" }}
+<style>
+    #body {
+        width: 85%;
+        max-width: 1136px;
+
+        margin-top: 132px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #download {
+        display: flex;
+        justify-content: center;
+    }
+
+    button {
+        width: 10em;
+        margin: 0.5em;
+        padding: 0.5em;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        border: 1px solid black;
+        border-radius: 5px;
+        background: white;
+        cursor: pointer;
+    }
+
+    #description {
+        max-width: 600px;
+        margin: 2em;
+        text-align: justify;
+    }
+</style>
+{{ end }}

@@ -1,0 +1,5 @@
+{{ $coverArt := resources.Get (printf "images/%s%s" .File.BaseFileName ".png") }}
+{{ $coverArt := $coverArt.Resize "440x680" }}
+{{ with $coverArt }}
+<img src="{{ .Permalink }}" alt="{{ .Title }} Book Cover" height="340px" width="220px"/>
+{{ end }}

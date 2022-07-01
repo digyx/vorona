@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div id="body">
     {{ range where .Site.RegularPages "Type" "books" }}
-    <a href="{{ .Permalink }}" class="book">
+    <a href="{{ .Permalink }}" class="book" style="text-decoration: none;">
         {{ partial "cover-art.html" . }}
         <h3>{{ .Title }}</h3>
         {{ if gt .Date now }}

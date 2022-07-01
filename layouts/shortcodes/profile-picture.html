@@ -1,0 +1,13 @@
+{{ $profilePicture := resources.Get (printf "images/DevonTingley.png") }}
+{{ $profilePicture := $profilePicture.Resize "640x" }}
+{{ with $profilePicture }}
+<img 
+    src="{{ .Permalink }}"
+    alt="Picture of Devon Tingley"
+    width="320px"
+    style="
+        display: block;
+        margin: auto;
+    "
+/>
+{{ end }}

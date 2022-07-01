@@ -76,8 +76,10 @@
             </div>
         </div>
 
-        {{ block "main" . }}
-        {{ end }}
+        <div id="content">
+            {{ block "main" . }}
+            {{ end }}
+        </div>
 
     </body>
 </html>
@@ -107,6 +109,16 @@
     a {
         color: var(--text-color);
         text-decoration: none;
+    }
+
+    #content {
+        width: 85%;
+        max-width: 600px;
+        margin-top: 132px;
+    }
+
+    #content a {
+        text-decoration: underline;
     }
 
     #header {

@@ -1,10 +1,10 @@
 {{ define "main" }}
 <div id="body">
-    <img
-        src="https://imagedelivery.net/15nTRPX67jTK1T3emsbaRA/9c6c97c7-d235-451e-f9f7-28e20fc8ae00/public"
-        alt="Picture of Devon Tingley"
-        width="320px"
-    />
+{{ $profilePicture := resources.Get (printf "images/DevonTingley.png") }}
+{{ $profilePicture := $profilePicture.Resize "640x" }}
+{{ with $profilePicture }}
+<img src="{{ .Permalink }}" alt="{{ .Title }} Book Cover" width="320px"/>
+{{ end }}
 
     <h1>About Me</h1>
 

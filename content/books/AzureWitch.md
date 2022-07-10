@@ -1,6 +1,6 @@
 ---
 title: Death of the Azure Witch
-date: 2022-07-05
+date: 2022-07-12
 ---
 
 A girl with snow white hair and blue eyes roamed from city to city. She had no mother. She had no father. She had no home. She had nothing but the clothes on her back. The girl sat on the streets, covered in mud, silently hoping that someone, anyone would show her mercy. Dozens of people passed by her, never even looking. Tears filled hers as the cold of the night ate away at her. Days and weeks and months passed.
